@@ -36,32 +36,16 @@ set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_REALLY
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/imageformats")
 
-# install to qt plugins dir
-execute_process(
-    COMMAND ${QT_QMAKE_EXECUTABLE} -query QT_INSTALL_PLUGINS
-    OUTPUT_VARIABLE QT_PLUGINS_DIR
-    OUTPUT_STRIP_TRAILING_WHITESPACE)
+# install to local plugins dir
+set(plugins_dir "${CMAKE_INSTALL_PREFIX}")
 
-if (QT_PLUGINS_DIR)
-
-    # status
-    message(STATUS "")
-    message(STATUS "-----------------------------------------------------------------------------")
-    message(STATUS " ${PROJECT_NAME} configured")
-    message(STATUS " https://github.com/roniemartinez/libqpcx")
-    message(STATUS " it will be installed to ${QT_PLUGINS_DIR}/imageformats")
-    message(STATUS "-----------------------------------------------------------------------------")
-  
-else ()
-    message(FATAL_ERROR "Qt5 plugin directory cannot be detected.")
-endif ()
-
-# Prefix with DESTDIR if available to allow packaging
-if (ENV{DESTDIR} AND NOT ENV{DESTDIR} STREQUAL "")
-  set(plugins_dir "$ENV{DESTDIR}${QT_PLUGINS_DIR}")
-else ()
-  set(plugins_dir "${QT_PLUGINS_DIR}")
-endif ()
+# status
+message(STATUS "")
+message(STATUS "-----------------------------------------------------------------------------")
+message(STATUS " ${PROJECT_NAME} configured")
+message(STATUS " https://github.com/roniemartinez/libqpcx")
+message(STATUS " it will be installed to ${plugins_dir}/imageformats")
+message(STATUS "-----------------------------------------------------------------------------")
 
 install(
   TARGETS ${PROJECT_NAME}
