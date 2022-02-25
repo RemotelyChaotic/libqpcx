@@ -30,9 +30,16 @@ SET(CMAKE_DEBUG_POSTFIX "d")
 add_library(${PROJECT_NAME} MODULE ${LIBQPCX_SOURCES} ${LIBQPCX_HEADERS})
 target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Gui)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_BINARY_DIR}/libs)
-set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_BINARY_DIR}/libs)
-set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_REALLYRELEASE ${CMAKE_CURRENT_BINARY_DIR}/libs)
+set(qpcx_subfolder "libs/imageformats")
+if (ANDROID)
+  set(qpcx_subfolder "android-build/libs/${ANDROID_ABI}/plugins/imageformats")
+  set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "libplugins_imageformats_qpcx")
+endif()
+
+set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${qpcx_subfolder})
+set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/${qpcx_subfolder})
+set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/${qpcx_subfolder})
+set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_REALLYRELEASE ${CMAKE_BINARY_DIR}/${qpcx_subfolder})
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/imageformats")
 
