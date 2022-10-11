@@ -44,7 +44,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_REALLY
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/imageformats")
 
 # install to local plugins dir
-set(plugins_dir "${CMAKE_INSTALL_PREFIX}")
+if (ANDROID)
+  set(plugins_dir "${CMAKE_INSTALL_PREFIX}")
+else()
+  set(plugins_dir "${CMAKE_INSTALL_PREFIX}/bin")
+endif()
 
 # status
 message(STATUS "")
